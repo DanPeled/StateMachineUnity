@@ -186,6 +186,7 @@ namespace Utils.StateMachine
 }
 ```
 ## State.cs
+```csharp
 using UnityEngine;
 
 namespace Utils.StateMachine
@@ -202,3 +203,4 @@ namespace Utils.StateMachine
         public virtual void Exit() { }
     }
 }
+```
