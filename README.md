@@ -32,6 +32,77 @@ public class FreeRoamState : State<GameController>
 }
   ```
 4.Continue your code.
+## Example : 
+```csharp
+using UnityEngine;
+using Utils.StateMachine;
+
+public class PlayerController : MonoBehaviour
+{
+    // A reference to the state machine
+    private StateMachine<PlayerController> stateMachine;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // Create a new state machine with this object as the owner
+        stateMachine = new StateMachine<PlayerController>(this);
+
+        // Push the initial state onto the state machine
+        stateMachine.Push(new IdleState());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Execute the current state's action
+        stateMachine.Execute();
+    }
+
+    // Example method to transition to a new state
+    public void TransitionToRunState()
+    {
+        stateMachine.ChangeState(new RunState());
+    }
+
+    // Example state classes
+    private class IdleState : State<PlayerController>
+    {
+        public override void Enter(PlayerController owner)
+        {
+            Debug.Log("Entering IdleState");
+        }
+
+        public override void Execute()
+        {
+            Debug.Log("Executing IdleState");
+        }
+
+        public override void Exit()
+        {
+            Debug.Log("Exiting IdleState");
+        }
+    }
+
+    private class RunState : State<PlayerController>
+    {
+        public override void Enter(PlayerController owner)
+        {
+            Debug.Log("Entering RunState");
+        }
+
+        public override void Execute()
+        {
+            Debug.Log("Executing RunState");
+        }
+
+        public override void Exit()
+        {
+            Debug.Log("Exiting RunState");
+        }
+    }
+}
+```
 ## State Machine.cs
 
 The `StateMachine` class is a generic class that represents a state machine. It has a type parameter `T` that specifies the type of the owner of the state machine. The state machine manages a stack of `State` objects, where the top of the stack represents the current state of the machine.
@@ -113,4 +184,20 @@ namespace Utils.StateMachine
         }
     }
 }
+## State.cs
+using UnityEngine;
 
+namespace Utils.StateMachine
+{
+    public class State<T> : MonoBehaviour
+    {
+        // Method that is called when entering the state
+        public virtual void Enter(T owner) { }
+
+        // Method that is called every frame while the state is active
+        public virtual void Execute() { }
+
+        // Method that is called when exiting the state
+        public virtual void Exit() { }
+    }
+}
