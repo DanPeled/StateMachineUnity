@@ -3,7 +3,7 @@ A state machine system for unity
 
 # How to use : 
 1. Add the files to your project
-1. In a new script, add `using Utils.StateMachine` to gain access to the state machine scripts, and create a new state machine var. e.g : 
+2. In a new script, add `using Utils.StateMachine` to gain access to the state machine scripts, and create a new state machine var. e.g : 
 ```cs
 using UnityEngine;
 using System.Collections;
@@ -22,7 +22,7 @@ public class MyCustomScript : MonoBehaviour {
 
   }
   ```
-1.To add create a state, make a new script, that will inherit the State class with the generic type of its owner, from the Utils.StateMachine namespace. e.g : 
+3.To add create a state, make a new script, that will inherit the State class with the generic type of its owner, from the Utils.StateMachine namespace. e.g : 
 ```cs
 using UnityEngine;
 using Utils.StateMachine;
@@ -31,4 +31,4 @@ public class FreeRoamState : State<GameController>
 
 }
   ```
-  1.Continue your code.
+4.Continue your code.
