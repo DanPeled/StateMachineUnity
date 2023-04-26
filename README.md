@@ -32,3 +32,85 @@ public class FreeRoamState : State<GameController>
 }
   ```
 4.Continue your code.
+## State Machine.cs
+
+The `StateMachine` class is a generic class that represents a state machine. It has a type parameter `T` that specifies the type of the owner of the state machine. The state machine manages a stack of `State` objects, where the top of the stack represents the current state of the machine.
+
+```csharp
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Utils.StateMachine
+{
+    public class StateMachine<T>
+    {
+        // The current state of the state machine
+        public State<T> CurrentState { get; private set; }
+
+        // The stack of states managed by the state machine
+        public Stack<State<T>> StateStack { get; private set; }
+
+        // The owner of the state machine
+        T owner;
+
+        // Constructor for the state machine
+        public StateMachine(T owner)
+        {
+            this.owner = owner;
+            StateStack = new Stack<State<T>>();
+        }
+
+        // Executes the current state's action
+        public void Execute()
+        {
+            CurrentState?.Execute();
+        }
+
+        // Pushes a new state onto the stack and enters it
+        public void Push(State<T> newState)
+        {
+            StateStack.Push(newState);
+            CurrentState = newState;
+            CurrentState.Enter(this.owner);
+        }
+
+        // Pops the current state from the stack and exits it
+        public void Pop()
+        {
+            StateStack.Pop();
+            CurrentState.Exit();
+            CurrentState = StateStack.Peek();
+        }
+
+        // Changes the current state to a new state
+        public void ChangeState(State<T> newState)
+        {
+            if (CurrentState != null)
+            {
+                StateStack.Pop();
+                CurrentState.Exit();
+            }
+
+            StateStack.Push(newState);
+            CurrentState = newState;
+            CurrentState.Enter(owner);
+        }
+
+        // Pushes a new state onto the stack and waits until the current state is restored
+        public IEnumerator PushAndWait(State<T> newState)
+        {
+            var oldState = CurrentState;
+            Push(newState);
+            yield return new WaitUntil(() => CurrentState == oldState);
+        }
+
+        // Gets the previous state from the stack
+        public State<T> GetPrevState()
+        {
+            return StateStack.ElementAt(1);
+        }
+    }
+}
+
