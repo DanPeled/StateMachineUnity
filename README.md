@@ -103,6 +103,6 @@ public class PlayerController : MonoBehaviour
     }
 }
 ```
-## [State Machine.cs](https://github.com/DanPeled/StateMachineUnity/blob/main/State.cs)
+## [State Machine.cs](https://github.com/DanPeled/StateMachineUnity/blob/main/StateMachine.cs)
 
 The `StateMachine` class is a generic class that represents a state machine. It has a type parameter `T` that specifies the type of the owner of the state machine. The state machine manages a stack of `State` objects, where the top of the stack represents the current state of the machine.
